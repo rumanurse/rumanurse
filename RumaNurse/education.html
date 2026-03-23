@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RumaNurse — Health Education</title>
+<meta name="description" content="Plain-language health education from RumaNurse — understand high blood pressure, diabetes, COPD, heart failure, dementia and more.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C; --gold-light: #E8D5A3; --gold-pale: #FAF5E9;
+    --dark: #0F0F0F; --dark-soft: #1C1C1C; --cream: #F7F3EC;
+    --text: #2A2A2A; --muted: #666; --white: #ffffff;
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Lato',sans-serif; background:var(--cream); color:var(--text); }
+  *:focus-visible { outline:3px solid #4A90E2; outline-offset:3px; }
+
+  nav {
+    background:var(--dark); padding:16px 40px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-bottom:1px solid rgba(201,168,76,0.2);
+    position:sticky; top:0; z-index:100;
+  }
+  .nav-logo { font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--gold); letter-spacing:5px; text-decoration:none; font-weight:400; }
+  .nav-links { display:flex; gap:28px; list-style:none; }
+  .nav-links a { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.3s; }
+  .nav-links a:hover, .nav-links a.active { color:var(--gold); }
+
+  .page-hero { background:var(--dark-soft); padding:72px 40px 60px; text-align:center; border-bottom:3px solid var(--gold); }
+  .eyebrow { font-size:10px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:14px; display:flex; align-items:center; justify-content:center; gap:14px; }
+  .eyebrow::before, .eyebrow::after { content:''; width:28px; height:1px; background:var(--gold); }
+  .page-title { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,5vw,56px); font-weight:400; color:var(--white); margin-bottom:16px; line-height:1.1; }
+  .page-title em { font-style:italic; color:var(--gold-light); }
+  .page-sub { font-size:15px; font-weight:300; line-height:1.9; color:rgba(255,255,255,0.55); max-width:560px; margin:0 auto; }
+
+  /* TOPIC TABS */
+  .topic-nav { background:var(--dark); border-bottom:1px solid rgba(201,168,76,0.15); padding:0 40px; display:flex; gap:0; overflow-x:auto; scrollbar-width:none; }
+  .topic-nav::-webkit-scrollbar { display:none; }
+  .topic-tab { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.45); padding:18px 20px; border:none; background:none; cursor:pointer; border-bottom:3px solid transparent; white-space:nowrap; transition:all 0.3s; min-height:44px; }
+  .topic-tab:hover { color:var(--gold-light); }
+  .topic-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+
+  main { max-width:900px; margin:0 auto; padding:64px 40px 100px; }
+
+  /* TOPIC PANELS */
+  .topic-panel { display:none; animation:fadeIn 0.4s ease; }
+  .topic-panel.active { display:block; }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  .topic-hero { margin-bottom:48px; }
+  .topic-eyebrow { font-size:10px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:12px; display:flex; align-items:center; gap:12px; }
+  .topic-eyebrow::before { content:''; width:24px; height:1px; background:var(--gold); }
+  .topic-title { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,4vw,44px); font-weight:400; color:var(--dark); margin-bottom:14px; line-height:1.15; }
+  .topic-title em { font-style:italic; color:var(--gold); }
+  .topic-intro { font-size:16px; font-weight:300; line-height:2; color:#444; border-left:3px solid var(--gold); padding-left:20px; }
+
+  /* INFO BOXES */
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:36px 0; }
+  .info-box { background:var(--white); border:1px solid rgba(201,168,76,0.2); padding:28px 24px; }
+  .info-box h3 { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:var(--dark); margin-bottom:12px; }
+  .info-box ul { list-style:none; padding:0; }
+  .info-box ul li { font-size:14px; font-weight:300; line-height:1.8; color:var(--text); padding:5px 0; border-bottom:1px solid rgba(201,168,76,0.1); display:flex; gap:10px; }
+  .info-box ul li::before { content:'—'; color:var(--gold); flex-shrink:0; }
+  .info-box p { font-size:14px; font-weight:300; line-height:1.9; color:var(--text); }
+
+  .warning-box { background:#fff8f0; border:1px solid rgba(201,168,76,0.3); border-left:4px solid #e67e22; padding:24px; margin:28px 0; }
+  .warning-box h4 { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#e67e22; margin-bottom:10px; }
+  .warning-box p { font-size:14px; font-weight:300; line-height:1.8; color:var(--text); }
+
+  .tip-box { background:var(--gold-pale); border:1px solid rgba(201,168,76,0.3); border-left:4px solid var(--gold); padding:24px; margin:28px 0; }
+  .tip-box h4 { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+  .tip-box p { font-size:14px; font-weight:300; line-height:1.8; color:var(--text); }
+
+  .body-h2 { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:400; color:var(--dark); margin:40px 0 14px; padding-bottom:10px; border-bottom:1px solid rgba(201,168,76,0.2); }
+  .body-h2 em { font-style:italic; color:var(--gold); }
+  .body-p { font-size:15px; font-weight:300; line-height:2; color:#444; margin-bottom:16px; }
+
+  .number-list { list-style:none; padding:0; margin:20px 0 28px; counter-reset:num; }
+  .number-list li { font-size:14px; font-weight:300; line-height:1.8; color:var(--text); padding:10px 0 10px 44px; border-bottom:1px solid rgba(201,168,76,0.08); position:relative; counter-increment:num; }
+  .number-list li::before { content:counter(num); position:absolute; left:0; top:8px; width:28px; height:28px; background:var(--gold); color:var(--dark); font-size:12px; font-weight:700; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+  .divider { border:none; border-top:1px solid rgba(201,168,76,0.2); margin:52px 0; }
+
+  .nurse-note { background:var(--dark); padding:32px 36px; margin:36px 0; border-left:4px solid var(--gold); }
+  .nurse-note p { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:var(--gold-light); line-height:1.8; margin-bottom:10px; }
+  .nurse-note span { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); }
+
+  .cta-strip { background:var(--dark); padding:48px; border-top:3px solid var(--gold); display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; margin-top:64px; }
+  .cta-strip h3 { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:400; color:var(--white); }
+  .cta-strip h3 em { font-style:italic; color:var(--gold-light); }
+  .cta-strip p { font-size:13px; color:rgba(255,255,255,0.45); margin-top:4px; }
+  .btn-cta { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--dark); background:var(--gold); padding:16px 32px; text-decoration:none; white-space:nowrap; transition:background 0.3s; min-height:44px; display:inline-flex; align-items:center; }
+  .btn-cta:hover { background:var(--gold-light); }
+
+  footer { background:#080808; padding:40px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-top:1px solid rgba(201,168,76,0.15); }
+  .footer-logo { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--gold); letter-spacing:5px; font-weight:400; }
+  .footer-sub { font-size:11px; color:rgba(255,255,255,0.3); margin-top:4px; }
+  .footer-links { display:flex; gap:24px; list-style:none; flex-wrap:wrap; }
+  .footer-links a { font-size:11px; color:rgba(255,255,255,0.4); text-decoration:none; letter-spacing:1px; transition:color 0.3s; }
+  .footer-links a:hover { color:var(--gold); }
+  .footer-copy { font-size:11px; color:rgba(255,255,255,0.2); }
+
+  .disclaimer { font-size:12px; font-style:italic; color:var(--muted); background:var(--white); border:1px solid rgba(201,168,76,0.2); padding:16px 20px; margin-top:48px; line-height:1.8; }
+
+  @media (max-width:768px) {
+    nav { padding:14px 20px; }
+    .nav-links { display:none; }
+    .topic-nav { padding:0 20px; }
+    main { padding:40px 20px 80px; }
+    .info-grid { grid-template-columns:1fr; }
+    .cta-strip { flex-direction:column; text-align:center; }
+    footer { flex-direction:column; text-align:center; padding:32px 20px; }
+    .footer-links { justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<nav role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo">RumaNurse</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="education.html" class="active">Education</a></li>
+    <li><a href="intake.html">Book a Call</a></li>
+  </ul>
+</nav>
+
+<header class="page-hero">
+  <p class="eyebrow">Health Education</p>
+  <h1 class="page-title">Understanding your loved one's <em>health.</em></h1>
+  <p class="page-sub">Plain-language guides written with care. No medical jargon — just what you actually need to know to help your family.</p>
+</header>
+
+<!-- TOPIC TABS -->
+<nav class="topic-nav" role="tablist" aria-label="Health topics">
+  <button class="topic-tab active" role="tab" aria-selected="true" aria-controls="panel-hbp" onclick="showTopic('hbp', this)">High Blood Pressure</button>
+  <button class="topic-tab" role="tab" aria-selected="false" aria-controls="panel-diabetes" onclick="showTopic('diabetes', this)">Diabetes</button>
+  <button class="topic-tab" role="tab" aria-selected="false" aria-controls="panel-hf" onclick="showTopic('hf', this)">Heart Failure</button>
+  <button class="topic-tab" role="tab" aria-selected="false" aria-controls="panel-copd" onclick="showTopic('copd', this)">COPD</button>
+  <button class="topic-tab" role="tab" aria-selected="false" aria-controls="panel-dementia" onclick="showTopic('dementia', this)">Dementia</button>
+  <button class="topic-tab" role="tab" aria-selected="false" aria-controls="panel-falls" onclick="showTopic('falls', this)">Fall Prevention</button>
+</nav>
+
+<main id="main-content">
+
+  <!-- HIGH BLOOD PRESSURE -->
+  <article class="topic-panel active" id="panel-hbp" role="tabpanel" aria-labelledby="tab-hbp">
+    <div class="topic-hero">
+      <p class="topic-eyebrow">Cardiovascular Health</p>
+      <h2 class="topic-title">What is <em>High Blood Pressure?</em></h2>
+      <p class="topic-intro">High blood pressure (hypertension) means the force of blood pushing against your artery walls is consistently too high. It's called the "silent killer" because it usually has no symptoms — but left unmanaged, it damages the heart, kidneys, brain, and eyes over time.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>Normal vs. High Numbers</h3>
+        <ul>
+          <li>Normal: below 120/80 mmHg</li>
+          <li>Elevated: 120–129 / below 80</li>
+          <li>Stage 1 High: 130–139 / 80–89</li>
+          <li>Stage 2 High: 140+ / 90+</li>
+          <li>Crisis: 180+ / 120+ — call 911</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Common Risk Factors</h3>
+        <ul>
+          <li>Age — risk increases after 65</li>
+          <li>Family history of hypertension</li>
+          <li>High sodium diet</li>
+          <li>Physical inactivity</li>
+          <li>Obesity or excess weight</li>
+          <li>Smoking or excessive alcohol</li>
+          <li>Chronic stress</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <h4>⚠️ Warning Signs of a Hypertensive Crisis</h4>
+      <p>Severe headache, chest pain, shortness of breath, blurred vision, nausea, confusion, or nosebleed that won't stop. If blood pressure is above 180/120, call 911 immediately — do not wait.</p>
+    </div>
+
+    <h2 class="body-h2">How is it <em>managed?</em></h2>
+    <p class="body-p">High blood pressure is very manageable with the right approach. Most people need a combination of lifestyle changes and medication.</p>
+
+    <ol class="number-list">
+      <li><strong>Take medications consistently</strong> — never skip doses, even when feeling fine. Blood pressure medications work best when taken at the same time every day.</li>
+      <li><strong>Reduce sodium</strong> — aim for less than 2,300mg per day. Processed foods, canned soups, and restaurant meals are the biggest sources.</li>
+      <li><strong>Stay active</strong> — even a 30-minute walk 5 days a week significantly lowers blood pressure over time.</li>
+      <li><strong>Monitor at home</strong> — keep a log of morning and evening readings. This is one of the most valuable things a family can do.</li>
+      <li><strong>Limit alcohol</strong> — no more than 1 drink per day for women, 2 for men.</li>
+      <li><strong>Manage stress</strong> — deep breathing, gentle movement, and social connection all help lower blood pressure naturally.</li>
+    </ol>
+
+    <div class="tip-box">
+      <h4>💛 RumaNurse Tip</h4>
+      <p>When checking blood pressure at home, sit quietly for 5 minutes first, keep your feet flat on the floor, and take two readings 1 minute apart. Record both. Bring your log to every doctor's appointment — it tells a much more complete story than one reading in the office.</p>
+    </div>
+
+    <div class="nurse-note">
+      <p>"Most families don't realize that blood pressure spikes in the morning — right after waking up. That's the most important time to check and the most important time to make sure medications have been taken."</p>
+      <span>— Magda, RumaNurse LVN</span>
+    </div>
+
+    <hr class="divider" aria-hidden="true">
+    <div class="cta-strip">
+      <div>
+        <h3>Need help managing <em>blood pressure at home?</em></h3>
+        <p>Vital signs monitoring is included in our Wellness Watch and Concierge Care tiers.</p>
+      </div>
+      <a href="intake.html" class="btn-cta">Book a Free Call</a>
+    </div>
+  </article>
+
+  <!-- DIABETES -->
+  <article class="topic-panel" id="panel-diabetes" role="tabpanel" aria-labelledby="tab-diabetes">
+    <div class="topic-hero">
+      <p class="topic-eyebrow">Endocrine Health</p>
+      <h2 class="topic-title">What is <em>Diabetes?</em></h2>
+      <p class="topic-intro">Diabetes is a condition where the body can't properly use or produce insulin — the hormone that helps sugar (glucose) from food enter your cells for energy. When glucose stays in the blood instead of entering cells, it causes damage throughout the body over time.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>Type 1 vs. Type 2</h3>
+        <ul>
+          <li><strong>Type 1:</strong> Body produces no insulin. Usually diagnosed in childhood. Requires daily insulin injections.</li>
+          <li><strong>Type 2:</strong> Body doesn't use insulin well. Most common in adults 45+. Managed with diet, exercise, and sometimes medication.</li>
+          <li><strong>Prediabetes:</strong> Blood sugar is high but not yet diabetic range. Reversible with lifestyle changes.</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Blood Sugar Target Ranges</h3>
+        <ul>
+          <li>Fasting (before meals): 80–130 mg/dL</li>
+          <li>2 hours after meals: below 180 mg/dL</li>
+          <li>A1C (3-month average): below 7%</li>
+          <li>Low blood sugar (hypoglycemia): below 70 mg/dL</li>
+          <li>High blood sugar (hyperglycemia): above 240 mg/dL — call doctor</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <h4>⚠️ Signs of Low Blood Sugar (Hypoglycemia) — Act Fast</h4>
+      <p>Shakiness, sweating, confusion, pale skin, rapid heartbeat, extreme hunger, or fainting. Give 15g of fast-acting carbs immediately (4 glucose tablets, 4oz juice, or regular soda). Recheck in 15 minutes. If unconscious, call 911.</p>
+    </div>
+
+    <h2 class="body-h2">Day-to-day <em>management.</em></h2>
+    <p class="body-p">Managing diabetes well is about building consistent daily habits. Small things done consistently make a huge difference in long-term outcomes.</p>
+
+    <ol class="number-list">
+      <li><strong>Check blood sugar regularly</strong> — before meals and 2 hours after, or as directed by the doctor. Log every reading.</li>
+      <li><strong>Take medications on time</strong> — insulin and diabetes medications must be taken consistently. Missed doses can cause dangerous swings.</li>
+      <li><strong>Eat balanced meals</strong> — focus on vegetables, lean proteins, and whole grains. Limit white bread, white rice, sugary drinks, and sweets.</li>
+      <li><strong>Foot care daily</strong> — diabetes reduces circulation and sensation in the feet. Check feet every day for cuts, sores, or changes in color.</li>
+      <li><strong>Stay hydrated</strong> — dehydration raises blood sugar. Aim for 6–8 glasses of water daily.</li>
+      <li><strong>Regular checkups</strong> — A1C every 3 months, eye exam annually, kidney function tests, and dental care are all essential.</li>
+    </ol>
+
+    <div class="tip-box">
+      <h4>💛 RumaNurse Tip</h4>
+      <p>Keep a "low kit" somewhere accessible at all times — a small bag with glucose tablets, juice boxes, or hard candy. Anyone caring for your loved one should know where it is and how to use it. Put it on the nightstand, in a purse, in the car.</p>
+    </div>
+
+    <div class="nurse-note">
+      <p>"The feet tell us so much about how diabetes is being managed. I check them at every visit — a small sore that goes unnoticed can become a serious infection very quickly in a diabetic patient."</p>
+      <span>— Magda, RumaNurse LVN</span>
+    </div>
+
+    <hr class="divider" aria-hidden="true">
+    <div class="cta-strip">
+      <div>
+        <h3>Managing diabetes <em>is a team effort.</em></h3>
+        <p>Medication management and chronic disease monitoring are core to our Concierge Care tier.</p>
+      </div>
+      <a href="intake.html" class="btn-cta">Book a Free Call</a>
+    </div>
+  </article>
+
+  <!-- HEART FAILURE -->
+  <article class="topic-panel" id="panel-hf" role="tabpanel">
+    <div class="topic-hero">
+      <p class="topic-eyebrow">Cardiovascular Health</p>
+      <h2 class="topic-title">What is <em>Heart Failure?</em></h2>
+      <p class="topic-intro">Heart failure doesn't mean the heart has stopped. It means the heart muscle has become too weak or stiff to pump blood as efficiently as the body needs. Blood and fluid can back up, causing swelling, breathlessness, and fatigue.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>Common Symptoms</h3>
+        <ul>
+          <li>Shortness of breath — especially lying flat</li>
+          <li>Swelling in legs, ankles, and feet</li>
+          <li>Sudden weight gain (2–3 lbs in a day)</li>
+          <li>Fatigue with minimal activity</li>
+          <li>Persistent cough or wheezing</li>
+          <li>Decreased appetite, nausea</li>
+          <li>Confusion or difficulty concentrating</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Daily Monitoring Essentials</h3>
+        <ul>
+          <li>Weigh every morning — same time, same scale</li>
+          <li>Call doctor if weight up 2+ lbs in a day</li>
+          <li>Track fluid intake (often limited to 6–8 cups/day)</li>
+          <li>Limit sodium to under 2,000mg per day</li>
+          <li>Take all medications as prescribed</li>
+          <li>Elevate legs when sitting</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <h4>⚠️ Call 911 Immediately If:</h4>
+      <p>Sudden severe shortness of breath, coughing up pink foamy mucus, chest pain or pressure, rapid or irregular heartbeat with dizziness, or fainting. These can indicate acute decompensation — a medical emergency.</p>
+    </div>
+
+    <h2 class="body-h2">Living well <em>with heart failure.</em></h2>
+    <p class="body-p">Heart failure requires daily attention but people live full, meaningful lives with it. The key is consistency — daily monitoring catches problems early, before they become emergencies.</p>
+
+    <ol class="number-list">
+      <li><strong>Daily weight checks</strong> — sudden weight gain means fluid is building up. This is the earliest warning sign of worsening heart failure.</li>
+      <li><strong>Never miss medications</strong> — heart failure medications reduce hospitalizations and save lives. Missing even one dose matters.</li>
+      <li><strong>Low-sodium diet</strong> — salt causes fluid retention which strains the heart. Read labels carefully.</li>
+      <li><strong>Fluid restrictions</strong> — many heart failure patients are on fluid limits. Track every sip.</li>
+      <li><strong>Activity in moderation</strong> — gentle walking is encouraged. Exhaustion is a sign to rest.</li>
+      <li><strong>Regular follow-ups</strong> — cardiology appointments every 3–6 months minimum, or more often if unstable.</li>
+    </ol>
+
+    <div class="tip-box">
+      <h4>💛 RumaNurse Tip</h4>
+      <p>A digital scale that records readings automatically is one of the best investments for a heart failure patient. Place it right next to the bathroom so it becomes part of the morning routine without any extra effort.</p>
+    </div>
+
+    <div class="nurse-note">
+      <p>"I've seen hospitalizations prevented simply because someone caught a 3-pound weight gain on a Tuesday morning. That's what daily monitoring does — it turns a potential crisis into a simple medication adjustment."</p>
+      <span>— Magda, RumaNurse LVN</span>
+    </div>
+
+    <hr class="divider" aria-hidden="true">
+    <div class="cta-strip">
+      <div><h3>Heart failure needs <em>consistent monitoring.</em></h3><p>Daily vital signs and weight tracking are included in our in-home care tiers.</p></div>
+      <a href="intake.html" class="btn-cta">Book a Free Call</a>
+    </div>
+  </article>
+
+  <!-- COPD -->
+  <article class="topic-panel" id="panel-copd" role="tabpanel">
+    <div class="topic-hero">
+      <p class="topic-eyebrow">Respiratory Health</p>
+      <h2 class="topic-title">What is <em>COPD?</em></h2>
+      <p class="topic-intro">Chronic Obstructive Pulmonary Disease (COPD) is a group of lung conditions — including emphysema and chronic bronchitis — that block airflow and make breathing difficult. It's progressive but very manageable with the right care.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>Common Symptoms</h3>
+        <ul>
+          <li>Chronic cough — often with mucus</li>
+          <li>Shortness of breath during activity</li>
+          <li>Wheezing or chest tightness</li>
+          <li>Frequent respiratory infections</li>
+          <li>Fatigue and low energy</li>
+          <li>Unintended weight loss (advanced)</li>
+          <li>Bluish lips or fingertips (severe)</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Oxygen Saturation Goals</h3>
+        <ul>
+          <li>Target O2 sat: 88–92% for COPD patients</li>
+          <li>Below 88%: Call doctor or seek care</li>
+          <li>Below 85%: Emergency — call 911</li>
+          <li>Check with a pulse oximeter daily</li>
+          <li>COPD patients often tolerate lower O2 than others</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <h4>⚠️ Signs of a COPD Flare-Up</h4>
+      <p>Sudden worsening of breathlessness, increased mucus that is yellow or green, fever, confusion, or inability to speak in full sentences. Flare-ups require immediate medical attention and can quickly become life-threatening.</p>
+    </div>
+
+    <h2 class="body-h2">Managing COPD <em>day by day.</em></h2>
+    <ol class="number-list">
+      <li><strong>Use inhalers correctly</strong> — technique matters enormously. Ask your nurse or pharmacist to watch you use it. Most people use inhalers incorrectly.</li>
+      <li><strong>Quit smoking</strong> — the single most effective intervention. Even quitting at 70 slows disease progression.</li>
+      <li><strong>Avoid triggers</strong> — cold air, smoke, strong perfumes, dust, and air pollution can all trigger flare-ups.</li>
+      <li><strong>Stay current on vaccines</strong> — annual flu vaccine and pneumonia vaccine are essential for COPD patients.</li>
+      <li><strong>Pursed-lip breathing</strong> — breathe in slowly through the nose, purse lips as if whistling, breathe out slowly. This simple technique reduces breathlessness immediately.</li>
+      <li><strong>Pulmonary rehab</strong> — a supervised exercise program that significantly improves quality of life and reduces hospitalizations.</li>
+    </ol>
+
+    <div class="tip-box">
+      <h4>💛 RumaNurse Tip</h4>
+      <p>Keep a pulse oximeter at home and check oxygen saturation every morning. A reading below 90% warrants a call to the doctor — don't wait to see if it improves on its own.</p>
+    </div>
+
+    <div class="nurse-note">
+      <p>"Inhaler education is one of the most impactful things I do for COPD patients. Once they use it correctly, they often feel measurably better within days."</p>
+      <span>— Magda, RumaNurse LVN</span>
+    </div>
+
+    <hr class="divider" aria-hidden="true">
+    <div class="cta-strip">
+      <div><h3>COPD needs <em>a nurse who pays attention.</em></h3><p>Oxygen monitoring, inhaler coaching, and flare-up prevention are part of our care plans.</p></div>
+      <a href="intake.html" class="btn-cta">Book a Free Call</a>
+    </div>
+  </article>
+
+  <!-- DEMENTIA -->
+  <article class="topic-panel" id="panel-dementia" role="tabpanel">
+    <div class="topic-hero">
+      <p class="topic-eyebrow">Neurological Health</p>
+      <h2 class="topic-title">Understanding <em>Dementia.</em></h2>
+      <p class="topic-intro">Dementia is not a single disease — it's an umbrella term for a group of symptoms affecting memory, thinking, and social abilities severely enough to interfere with daily life. Alzheimer's disease is the most common type, accounting for 60–80% of cases.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>Early Warning Signs</h3>
+        <ul>
+          <li>Memory loss that disrupts daily life</li>
+          <li>Difficulty planning or solving problems</li>
+          <li>Confusion with time or place</li>
+          <li>Trouble understanding visual images</li>
+          <li>New problems with words or language</li>
+          <li>Misplacing things repeatedly</li>
+          <li>Changes in mood or personality</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Normal Aging vs. Dementia</h3>
+        <ul>
+          <li><strong>Normal:</strong> Forgetting a name but remembering it later</li>
+          <li><strong>Dementia:</strong> Forgetting names of close family members</li>
+          <li><strong>Normal:</strong> Making occasional errors when paying bills</li>
+          <li><strong>Dementia:</strong> Being unable to manage finances at all</li>
+          <li><strong>Normal:</strong> Getting lost in a new place</li>
+          <li><strong>Dementia:</strong> Getting lost in familiar neighborhoods</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <h4>⚠️ Safety Is the Priority</h4>
+      <p>People with dementia are at high risk for falls, wandering, medication errors, and being taken advantage of financially. A safe home environment and consistent supervision become essential as the disease progresses.</p>
+    </div>
+
+    <h2 class="body-h2">Caring for someone <em>with dementia.</em></h2>
+    <ol class="number-list">
+      <li><strong>Establish routine</strong> — people with dementia function best with predictable daily schedules. Same wake time, meals, activities, and bedtime every day.</li>
+      <li><strong>Simplify communication</strong> — speak slowly, use simple sentences, and give one instruction at a time. Don't argue or correct — redirect instead.</li>
+      <li><strong>Create a safe environment</strong> — remove fall hazards, lock away medications and chemicals, consider door alarms, and remove car keys if driving is no longer safe.</li>
+      <li><strong>Manage medications carefully</strong> — many dementia patients cannot self-manage medications. A pill organizer filled by a nurse or caregiver is essential.</li>
+      <li><strong>Address caregiver burnout</strong> — caring for someone with dementia is exhausting. Respite care is not a luxury, it's a necessity.</li>
+      <li><strong>Plan ahead legally and financially</strong> — while your loved one can still participate, have conversations about power of attorney, advance directives, and financial plans.</li>
+    </ol>
+
+    <div class="tip-box">
+      <h4>💛 RumaNurse Tip</h4>
+      <p>Music from a person's younger years can be remarkably calming for someone with dementia — even in advanced stages. Create a playlist of songs from their 20s and 30s. It engages parts of the brain that remain intact longer than others.</p>
+    </div>
+
+    <div class="nurse-note">
+      <p>"Families often feel guilty for needing help with a dementia patient. But dementia care is genuinely a full-time job — and it requires specific skills. Getting professional support is an act of love, not weakness."</p>
+      <span>— Magda, RumaNurse LVN</span>
+    </div>
+
+    <hr class="divider" aria-hidden="true">
+    <div class="cta-strip">
+      <div><h3>Dementia care needs <em>consistency and compassion.</em></h3><p>Our Companion Care and Concierge tiers are built for families navigating this journey.</p></div>
+      <a href="intake.html" class="btn-cta">Book a Free Call</a>
+    </div>
+  </article>
+
+  <!-- FALL PREVENTION -->
+  <article class="topic-panel" id="panel-falls" role="tabpanel">
+    <div class="topic-hero">
+      <p class="topic-eyebrow">Safety &amp; Prevention</p>
+      <h2 class="topic-title">Preventing <em>Falls at Home.</em></h2>
+      <p class="topic-intro">Falls are the leading cause of injury and injury-related death in adults over 65. One in four seniors falls each year — and many never fully recover. The good news is that most falls are preventable with simple, practical changes.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <h3>Top Fall Risk Factors</h3>
+        <ul>
+          <li>Previous fall history</li>
+          <li>Muscle weakness or balance problems</li>
+          <li>Taking 4+ medications</li>
+          <li>Vision or hearing problems</li>
+          <li>Foot pain or unsafe footwear</li>
+          <li>Home hazards — rugs, clutter, poor lighting</li>
+          <li>Rushing to the bathroom at night</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Most Falls Happen</h3>
+        <ul>
+          <li>In the bathroom — especially the tub/shower</li>
+          <li>Getting up from bed at night</li>
+          <li>On stairs</li>
+          <li>On wet or slippery floors</li>
+          <li>Reaching for things too high or too low</li>
+          <li>During the first week after a new medication</li>
+          <li>When rushing or distracted</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="body-h2">Home safety <em>checklist.</em></h2>
+    <p class="body-p">Walk through your loved one's home with this checklist. Most changes cost very little but make an enormous difference.</p>
+
+    <ol class="number-list">
+      <li><strong>Bathroom grab bars</strong> — install next to the toilet and inside the shower. This is the single most impactful change you can make. Tension-mounted bars are not adequate — use wall-mounted hardware bars.</li>
+      <li><strong>Non-slip shower mat</strong> — place inside the tub/shower AND on the bathroom floor outside it.</li>
+      <li><strong>Remove loose rugs</strong> — area rugs and throw rugs are a leading cause of trips. If rugs must stay, secure all edges with non-slip tape or backing.</li>
+      <li><strong>Night lights</strong> — motion-activated night lights in the bedroom hallway and bathroom. Most falls happen at night on the way to the bathroom.</li>
+      <li><strong>Clear walking paths</strong> — remove clutter, cords, and furniture from main walkways.</li>
+      <li><strong>Review medications</strong> — some medications cause dizziness, low blood pressure, or drowsiness. Ask the doctor to review the full medication list for fall risk.</li>
+      <li><strong>Proper footwear</strong> — no socks without shoes, no loose slippers. Shoes should have non-slip soles and good ankle support.</li>
+      <li><strong>Bed height</strong> — the bed should be at a height where both feet touch the floor when sitting on the edge.</li>
+    </ol>
+
+    <div class="tip-box">
+      <h4>💛 RumaNurse Tip</h4>
+      <p>If your loved one has fallen before, ask their doctor about a physical therapy referral for balance and strength training. Even 8 sessions can dramatically reduce fall risk. It's covered by most insurance plans.</p>
+    </div>
+
+    <div class="warning-box">
+      <h4>⚠️ After a Fall — What To Do</h4>
+      <p>Don't panic. If the person can get up safely, help them slowly. If they hit their head, lost consciousness, have pain in the hip or wrist, or can't bear weight — call 911. Don't move them until help arrives. Document what happened and tell their doctor even if it seemed minor.</p>
+    </div>
+
+    <div class="nurse-note">
+      <p>"Every new client I see, I do a fall risk assessment in the first visit. I've caught things families walked past every day for years — a rug, a loose step, a medication that was causing dizziness. These are fixable. You just have to know what to look for."</p>
+      <span>— Magda, RumaNurse LVN</span>
+    </div>
+
+    <hr class="divider" aria-hidden="true">
+    <div class="cta-strip">
+      <div><h3>Fall prevention starts with <em>a home assessment.</em></h3><p>Magda performs fall risk assessments as part of every new care plan.</p></div>
+      <a href="intake.html" class="btn-cta">Book a Free Call</a>
+    </div>
+  </article>
+
+  <p class="disclaimer" role="note">
+    <strong>Medical Disclaimer:</strong> The information on this page is provided for general educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the guidance of your physician or other qualified health provider with any questions you may have regarding a medical condition. RumaNurse is a licensed nursing practice — our team is happy to discuss any of these topics in the context of your loved one's specific situation during your consultation call.
+  </p>
+
+</main>
+
+<footer role="contentinfo">
+  <div>
+    <div class="footer-logo">RumaNurse</div>
+    <div class="footer-sub">Private Family Nursing Practice · California Licensed LVN &amp; RN</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="education.html">Education</a></li>
+    <li><a href="intake.html">Book a Call</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 RumaNurse. All rights reserved.</p>
+</footer>
+
+<script>
+  function showTopic(id, btn) {
+    document.querySelectorAll('.topic-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.topic-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    document.getElementById('main-content').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+</script>
+
+</body>
+</html>
