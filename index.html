@@ -741,6 +741,103 @@
     .footer-links a:hover { color: var(--gold); }
 
     /* ── MOBILE ── */
+    /* ── CHECKBOXES ── */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+      margin-top: 4px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: transparent;
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .checkbox-item input[type="checkbox"]:checked {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .checkbox-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -2px;
+      left: 2px;
+      font-size: 11px;
+      color: white;
+    }
+
+    .checkbox-soon span { color: rgba(255,255,255,0.45); }
+    .checkbox-soon span em { font-style: italic; font-size: 0.72rem; color: var(--gold); }
+
+    .checkbox-other span { color: rgba(255,255,255,0.75); }
+
+    /* ── SUCCESS BOX ── */
+    .success-box {
+      text-align: center;
+      padding: 48px 32px;
+    }
+
+    .success-icon {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .success-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .success-box p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .success-box strong { color: var(--gold); }
+
+    .success-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .success-contacts a {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: color 0.3s;
+    }
+
+    .success-contacts a:hover { color: var(--white); }
+
     @media (max-width: 900px) {
       nav { padding: 16px 24px; }
 
@@ -762,6 +859,7 @@
 
       .contact { grid-template-columns: 1fr; padding: 80px 24px; }
       .form-row { grid-template-columns: 1fr; }
+      .checkbox-grid { grid-template-columns: 1fr; }
 
       footer { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
 
@@ -1049,50 +1147,156 @@
     </div>
 
     <!-- FORM -->
-    <form
-      class="contact-form"
-      action="https://formspree.io/f/YOUR_FORM_ID"
-      method="POST"
-    >
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">First Name</label>
-          <input class="form-input" type="text" name="first_name" placeholder="Your name" required />
+    <div id="form-wrapper">
+      <form
+        class="contact-form"
+        id="contact-form"
+        action="https://formspree.io/f/mkoqyapn"
+        method="POST"
+      >
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" name="first_name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" name="last_name" placeholder="Last name" />
+          </div>
         </div>
+
         <div class="form-group">
-          <label class="form-label">Last Name</label>
-          <input class="form-input" type="text" name="last_name" placeholder="Last name" />
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" name="phone" placeholder="(xxx) xxx-xxxx" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" name="email" placeholder="your@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Who needs care?</label>
+          <select class="form-select form-input" name="care_for">
+            <option value="" disabled selected>Select one</option>
+            <option>Myself</option>
+            <option>My parent / family member</option>
+            <option>My spouse or partner</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">What can we help with? (select all that apply)</label>
+          <div class="checkbox-grid">
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="Coffee & conversation" />
+              <span>Coffee &amp; Conversation</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="Grocery & errand companionship" />
+              <span>Grocery &amp; Errand Companionship</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="Appointment buddy" />
+              <span>Appointment Buddy</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="Walks & light outings" />
+              <span>Walks &amp; Light Outings</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="Quiet company" />
+              <span>Quiet Company</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="At-home companionship visits" />
+              <span>At-Home Companionship Visits</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="Emotional support" />
+              <span>Emotional Support</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="services[]" value="Light housekeeping / closet organization" />
+              <span>Light Housekeeping / Closet Organization</span>
+            </label>
+            <label class="checkbox-item checkbox-soon">
+              <input type="checkbox" name="services[]" value="Medication management (coming soon)" />
+              <span>Medication Management <em>· Coming Soon</em></span>
+            </label>
+            <label class="checkbox-item checkbox-soon">
+              <input type="checkbox" name="services[]" value="Vital signs check (coming soon)" />
+              <span>Vital Signs Check <em>· Coming Soon</em></span>
+            </label>
+            <label class="checkbox-item checkbox-other">
+              <input type="checkbox" name="services[]" value="Other" id="other-check" />
+              <span>Other</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" id="other-field" style="display:none;">
+          <label class="form-label">Please describe</label>
+          <input class="form-input" type="text" name="other_service" placeholder="Tell us what you need..." />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Anything else you'd like us to know?</label>
+          <textarea class="form-textarea" name="message" placeholder="Share as much or as little as you'd like..."></textarea>
+        </div>
+
+        <button type="submit" class="form-submit">Send Inquiry →</button>
+      </form>
+
+      <!-- SUCCESS MESSAGE -->
+      <div id="form-success" style="display:none;">
+        <div class="success-box">
+          <div class="success-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#B8965A" stroke-width="1.5">
+              <circle cx="20" cy="20" r="18"/>
+              <path d="M12 20 L17 25 L28 14"/>
+            </svg>
+          </div>
+          <h3>Thank you — we received your inquiry.</h3>
+          <p>Your request has been reviewed and you'll receive a call back within <strong>2–3 business days.</strong></p>
+          <p>In the meantime, if you have any questions or concerns feel free to reach out:</p>
+          <div class="success-contacts">
+            <a href="mailto:info@rumanurse.com">info@rumanurse.com</a>
+            <a href="sms:4243549711">Text us: 424-354-9711</a>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label class="form-label">Phone Number</label>
-        <input class="form-input" type="tel" name="phone" placeholder="(xxx) xxx-xxxx" />
-      </div>
+    <script>
+      // Show/hide Other field
+      document.getElementById('other-check').addEventListener('change', function() {
+        document.getElementById('other-field').style.display = this.checked ? 'block' : 'none';
+      });
 
-      <div class="form-group">
-        <label class="form-label">Email Address</label>
-        <input class="form-input" type="email" name="email" placeholder="your@email.com" required />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Who needs care?</label>
-        <select class="form-select form-input" name="care_for">
-          <option value="" disabled selected>Select one</option>
-          <option>Myself</option>
-          <option>My parent / family member</option>
-          <option>My spouse or partner</option>
-          <option>Other</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Tell us a little about what you need</label>
-        <textarea class="form-textarea" name="message" placeholder="Share as much or as little as you'd like..."></textarea>
-      </div>
-
-      <button type="submit" class="form-submit">Send Inquiry →</button>
-    </form>
+      // Handle form submission → show success
+      const form = document.getElementById('contact-form');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const data = new FormData(form);
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            form.style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
+          } else {
+            alert('Something went wrong. Please email us directly at info@rumanurse.com');
+          }
+        } catch {
+          alert('Something went wrong. Please email us directly at info@rumanurse.com');
+        }
+      });
+    </script>
   </section>
 
   <!-- FOOTER -->
