@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RumaNurse Concierge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:     #FAFAF7;
+      --white:     #FFFFFF;
+      --olive:     #6B7C5C;
+      --olive-lt:  #8A9B7A;
+      --olive-dk:  #4A5840;
+      --copper:    #A0522D;
+      --copper-lt: #C4784F;
+      --rust:      #8B3A2A;
+      --warm-gray: #E8E4DC;
+      --text-dark: #2C2C2A;
+      --text-mid:  #5A5A56;
+      --gold:      #B8965A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--white);
+      color: var(--text-dark);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--warm-gray);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--olive-dk);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-logo span { color: var(--copper); }
+
+    nav a.nav-cta {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--olive);
+      padding: 10px 24px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    nav a.nav-cta:hover { background: var(--olive-dk); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .hero-text {
+      padding: 80px 64px 80px 80px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--copper);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--olive-dk);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--copper);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 420px;
+      margin-bottom: 48px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--olive);
+      color: var(--white);
+      text-decoration: none;
+      padding: 16px 36px;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--olive-dk);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      border: 1px solid var(--olive);
+      color: var(--olive-dk);
+      text-decoration: none;
+      padding: 16px 36px;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+
+    .btn-ghost:hover {
+      background: var(--olive);
+      color: var(--white);
+    }
+
+    .hero-image {
+      height: 100vh;
+      background: var(--warm-gray);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image-fill {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #D4C9B8 0%, #B8A898 40%, #8A9B7A 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Botanical SVG decoration in hero */
+    .hero-botanical {
+      position: absolute;
+      bottom: 60px;
+      left: 40px;
+      opacity: 0.18;
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: 48px;
+      right: 48px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--warm-gray);
+      padding: 20px 24px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-badge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--copper);
+      display: block;
+      line-height: 1;
+    }
+
+    .hero-badge-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 80px;
+      margin: 0 auto;
+    }
+
+    .divider-line { flex: 1; height: 1px; background: var(--warm-gray); }
+    .divider-icon { color: var(--gold); font-size: 1.1rem; }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      background: var(--olive-dk);
+      color: var(--white);
+      padding: 64px 80px;
+      display: grid;
+      grid-template-columns: 1fr 2px 1fr 2px 1fr;
+      gap: 0 48px;
+      align-items: center;
+    }
+
+    .strip-divider { background: rgba(255,255,255,0.15); height: 80px; }
+
+    .strip-item { text-align: center; }
+
+    .strip-item-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+    }
+
+    .strip-item-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-top: 8px;
+      display: block;
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 120px 80px;
+      background: var(--white);
+    }
+
+    .section-header {
+      margin-bottom: 72px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--copper);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--olive-dk);
+      line-height: 1.2;
+    }
+
+    .section-title em { font-style: italic; color: var(--copper); }
+
+    /* Companionship cards */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 80px;
+    }
+
+    .service-card {
+      background: var(--cream);
+      padding: 48px 40px;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .service-card:hover {
+      border-color: var(--copper);
+      background: var(--white);
+    }
+
+    .service-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 24px;
+      color: var(--olive);
+    }
+
+    .service-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--olive-dk);
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    /* Coming soon nursing strip */
+    .coming-soon {
+      background: var(--cream);
+      border: 1px solid var(--warm-gray);
+      padding: 56px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .coming-soon-left h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--olive-dk);
+      margin-bottom: 8px;
+    }
+
+    .coming-soon-left p {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      max-width: 480px;
+    }
+
+    .coming-soon-badge {
+      flex-shrink: 0;
+      background: var(--olive-dk);
+      color: var(--white);
+      padding: 12px 24px;
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+
+    .nursing-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      margin-top: 20px;
+    }
+
+    .nursing-item {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nursing-item::before {
+      content: '·';
+      color: var(--copper);
+      font-size: 1.2rem;
+    }
+
+    /* ── WHY RUMA ── */
+    .why {
+      padding: 120px 80px;
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .why-text .section-header { margin-bottom: 40px; }
+
+    .why-body {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      margin-bottom: 32px;
+    }
+
+    .why-signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--copper);
+    }
+
+    .why-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pillar {
+      background: var(--white);
+      padding: 28px 36px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      border-left: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .pillar:hover { border-color: var(--gold); }
+
+    .pillar-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .pillar h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--olive-dk);
+      margin-bottom: 4px;
+    }
+
+    .pillar p {
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ── ABOUT MAGDA ── */
+    .about {
+      padding: 120px 80px;
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-card {
+      background: var(--olive-dk);
+      padding: 56px 48px;
+      color: var(--white);
+      position: sticky;
+      top: 100px;
+    }
+
+    .about-card-eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .about-card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .about-card p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .about-card-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.15);
+      margin: 28px 0;
+    }
+
+    .credential {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 12px;
+    }
+
+    .credential::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .about-content {}
+
+    .about-content .section-header { margin-bottom: 32px; }
+
+    .about-body {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      margin-bottom: 24px;
+    }
+
+    .about-body strong {
+      color: var(--olive-dk);
+      font-weight: 500;
+    }
+
+    .ruma-meaning {
+      border-left: 3px solid var(--copper);
+      padding: 20px 28px;
+      background: var(--cream);
+      margin: 32px 0;
+    }
+
+    .ruma-meaning p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--olive-dk);
+    }
+
+    .ruma-meaning span {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-top: 8px;
+      font-style: normal;
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      padding: 120px 80px;
+      background: var(--olive-dk);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .contact-left h2 em { font-style: italic; color: var(--gold); }
+
+    .contact-left p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+
+    .contact-details { display: flex; flex-direction: column; gap: 20px; }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .contact-item-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+
+    .contact-item-text {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .contact-item-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+    .form-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .form-input, .form-select, .form-textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      padding: 14px 18px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: rgba(255,255,255,0.25); }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus { border-color: var(--gold); }
+
+    .form-select option { background: var(--olive-dk); color: var(--white); }
+
+    .form-textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit {
+      background: var(--gold);
+      border: none;
+      color: var(--white);
+      padding: 18px 40px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      align-self: flex-start;
+    }
+
+    .form-submit:hover {
+      background: var(--copper);
+      transform: translateY(-1px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1E231A;
+      padding: 48px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+
+    .footer-logo span { color: var(--gold); }
+
+    .footer-tagline {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.12em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer-links a {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-text { padding: 100px 24px 60px; }
+      .hero-image { height: 50vw; min-height: 280px; }
+
+      .about-strip { grid-template-columns: 1fr; gap: 32px; padding: 48px 24px; }
+      .strip-divider { display: none; }
+
+      .services { padding: 80px 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .coming-soon { flex-direction: column; padding: 40px 24px; }
+
+      .why { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+
+      .about { grid-template-columns: 1fr; padding: 80px 24px; }
+      .about-card { position: static; }
+
+      .contact { grid-template-columns: 1fr; padding: 80px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      footer { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
+
+      .divider { padding: 0 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Ruma<span>Nurse</span> <span style="font-size:0.65rem; letter-spacing:0.25em; color:var(--text-mid); font-family:'Jost',sans-serif; font-weight:300;">CONCIERGE</span></a>
+    <a href="#contact" class="nav-cta">Book a Visit</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Companionship &amp; Home Care · Los Angeles</div>
+      <h1>
+        You deserve<br>
+        care that feels<br>
+        like <em>home.</em>
+      </h1>
+      <p class="hero-sub">
+        Private, one-on-one companionship visits — thoughtful, unhurried, and tailored entirely to you or your loved one.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Schedule a Visit</a>
+        <a href="#services" class="btn-ghost">Our Services</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <div class="hero-image-fill">
+        <!-- Botanical SVG decoration -->
+        <svg width="320" height="400" viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.35;">
+          <path d="M160 380 C160 380 80 300 80 200 C80 100 120 40 160 20 C200 40 240 100 240 200 C240 300 160 380 160 380Z" stroke="#6B7C5C" stroke-width="1.5" fill="none"/>
+          <path d="M160 20 L160 380" stroke="#6B7C5C" stroke-width="1" stroke-dasharray="4 6"/>
+          <ellipse cx="120" cy="140" rx="36" ry="22" transform="rotate(-25 120 140)" stroke="#B8965A" stroke-width="1.2" fill="none"/>
+          <ellipse cx="200" cy="160" rx="36" ry="22" transform="rotate(20 200 160)" stroke="#B8965A" stroke-width="1.2" fill="none"/>
+          <ellipse cx="108" cy="220" rx="30" ry="18" transform="rotate(-30 108 220)" stroke="#B8965A" stroke-width="1.2" fill="none"/>
+          <ellipse cx="212" cy="240" rx="30" ry="18" transform="rotate(28 212 240)" stroke="#B8965A" stroke-width="1.2" fill="none"/>
+          <ellipse cx="130" cy="300" rx="28" ry="16" transform="rotate(-18 130 300)" stroke="#B8965A" stroke-width="1.2" fill="none"/>
+        </svg>
+      </div>
+      <div class="hero-badge">
+        <span class="hero-badge-num">LVN</span>
+        <span class="hero-badge-label">Licensed &amp; California Certified</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <div class="about-strip">
+    <div class="strip-item">
+      <span class="strip-item-num">1:1</span>
+      <span class="strip-item-label">Dedicated Care — No Shared Visits</span>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <span class="strip-item-num">LA</span>
+      <span class="strip-item-label">Serving Los Angeles &amp; Surrounding Areas</span>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <span class="strip-item-num">Ruma</span>
+      <span class="strip-item-label">"Home" — The Heart of Everything We Do</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-header">
+      <div class="section-eyebrow">What We Offer</div>
+      <h2 class="section-title">Companionship,<br><em>beautifully done.</em></h2>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <circle cx="22" cy="16" r="7"/>
+          <path d="M8 38c0-7.7 6.3-14 14-14s14 6.3 14 14"/>
+        </svg>
+        <h3>Companionship Visits</h3>
+        <p>Warm, unhurried company — conversation, connection, and genuine presence at home or on outings.</p>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M22 6l4 10h10l-8 6 3 10-9-6-9 6 3-10-8-6h10z"/>
+        </svg>
+        <h3>Errand &amp; Outing Support</h3>
+        <p>Grocery runs, appointments, walks, and light outings — always with a trusted, attentive companion.</p>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M22 8 C14 8 8 14 8 22 C8 30 14 36 22 36 C30 36 36 30 36 22"/>
+          <path d="M28 8 L36 8 L36 16"/>
+          <path d="M22 16 L22 22 L26 26"/>
+        </svg>
+        <h3>Scheduled Regular Visits</h3>
+        <p>Weekly or recurring visits with the same caregiver — consistency and familiarity your family can count on.</p>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M8 20 Q22 8 36 20"/>
+          <path d="M12 20 L12 36 L32 36 L32 20"/>
+          <path d="M18 36 L18 28 L26 28 L26 36"/>
+        </svg>
+        <h3>At-Home Presence</h3>
+        <p>Meaningful time spent in the comfort of their own home — reading, meals, memory sharing, and peace of mind.</p>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M22 10 C16 10 10 15 10 22 C10 27 13 31 17 33 L22 38 L27 33 C31 31 34 27 34 22 C34 15 28 10 22 10Z"/>
+        </svg>
+        <h3>Emotional Support</h3>
+        <p>A compassionate, non-judgmental presence during life's harder seasons — never rushed, always caring.</p>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="8" y="12" width="28" height="22" rx="2"/>
+          <path d="M15 12 L15 8"/>
+          <path d="M29 12 L29 8"/>
+          <path d="M8 20 L36 20"/>
+          <path d="M16 28 L20 32 L28 24"/>
+        </svg>
+        <h3>Appointment Companion</h3>
+        <p>A calm, prepared presence for medical visits, specialist appointments, and procedure days.</p>
+      </div>
+    </div>
+
+    <!-- COMING SOON NURSING -->
+    <div class="coming-soon">
+      <div class="coming-soon-left">
+        <h3>Clinical Nursing Services — Coming Soon</h3>
+        <p>As RumaNurse grows, our full LVN clinical services will be available exclusively to established clients.</p>
+        <div class="nursing-list">
+          <span class="nursing-item">Vitals Monitoring</span>
+          <span class="nursing-item">Medication Management</span>
+          <span class="nursing-item">Wound Care</span>
+          <span class="nursing-item">Post-Op Recovery Support</span>
+          <span class="nursing-item">Care Coordination</span>
+          <span class="nursing-item">Family Health Liaising</span>
+        </div>
+      </div>
+      <div class="coming-soon-badge">Coming Soon</div>
+    </div>
+  </section>
+
+  <!-- WHY RUMA -->
+  <section class="why">
+    <div class="why-text">
+      <div class="section-header">
+        <div class="section-eyebrow">Why RumaNurse</div>
+        <h2 class="section-title">Not an agency.<br><em>A relationship.</em></h2>
+      </div>
+      <p class="why-body">
+        Most home care is transactional — different aides, rotating staff, clinical checklists. RumaNurse is something different. We come to you as a private concierge practice, bringing the unhurried attention and genuine warmth that families in Los Angeles deserve.
+      </p>
+      <p class="why-signature">— Magdalena Rumambi, LVN · Founder</p>
+    </div>
+
+    <div class="why-pillars">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <div>
+          <h4>Always the Same Person</h4>
+          <p>No rotating staff. You know exactly who is walking through the door — every time.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <div>
+          <h4>Truly Private &amp; Discreet</h4>
+          <p>Your family's privacy is non-negotiable. We operate with the confidentiality of a private household.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <div>
+          <h4>Tailored to Your Life</h4>
+          <p>Every visit is shaped around your loved one's preferences, routines, and personality.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">04</span>
+        <div>
+          <h4>Clinically Grounded</h4>
+          <p>Companionship delivered with a nurse's eyes — observant, calm, and ready when it matters.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-card">
+      <div class="about-card-eyebrow">Meet Your Caregiver</div>
+      <h2>Magdalena Rumambi</h2>
+      <p>California Licensed Vocational Nurse, founder of RumaNurse Concierge, and the person who will personally care for your family.</p>
+      <div class="about-card-divider"></div>
+      <div class="credential">California Licensed Vocational Nurse (LVN)</div>
+      <div class="credential">BVNPT Certified · State of California</div>
+      <div class="credential">Founder, Araya Consulting LLC</div>
+      <div class="credential">Los Angeles, California</div>
+    </div>
+
+    <div class="about-content">
+      <div class="section-header">
+        <div class="section-eyebrow">Our Story</div>
+        <h2 class="section-title">Built on the meaning<br>of <em>home.</em></h2>
+      </div>
+
+      <p class="about-body">
+        RumaNurse was born from a simple belief: that <strong>every person deserves to feel at home in their own care.</strong> As a California LVN, I've seen what happens when families have to choose between clinical competence and genuine warmth. I built RumaNurse so they never have to.
+      </p>
+
+      <div class="ruma-meaning">
+        <p>"Ruma" means home in Indonesian and Malay — a place of belonging, comfort, and peace.</p>
+        <span>The heart of our name · The soul of our care</span>
+      </div>
+
+      <p class="about-body">
+        This is a family practice, built with intention. Every client becomes part of our circle — not a case number, not a time slot. We take on a small number of families because exceptional care cannot be scaled.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-left">
+      <h2>Ready to bring<br><em>care home?</em></h2>
+      <p>Reach out and let's talk about what your family needs. No pressure, no obligations — just a real conversation.</p>
+
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.16a16 16 0 006.93 6.93l1.52-1.52a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <div class="contact-item-text">
+            <span class="contact-item-label">Call or Text</span>
+            424-354-9711
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="contact-item-text">
+            <span class="contact-item-label">Email</span>
+            info@rumanurse.com
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="contact-item-text">
+            <span class="contact-item-label">Instagram</span>
+            @rumanurse
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <form
+      class="contact-form"
+      action="https://formspree.io/f/YOUR_FORM_ID"
+      method="POST"
+    >
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input class="form-input" type="text" name="first_name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input class="form-input" type="text" name="last_name" placeholder="Last name" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="tel" name="phone" placeholder="(xxx) xxx-xxxx" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" name="email" placeholder="your@email.com" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Who needs care?</label>
+        <select class="form-select form-input" name="care_for">
+          <option value="" disabled selected>Select one</option>
+          <option>Myself</option>
+          <option>My parent / family member</option>
+          <option>My spouse or partner</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tell us a little about what you need</label>
+        <textarea class="form-textarea" name="message" placeholder="Share as much or as little as you'd like..."></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">Send Inquiry →</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="footer-logo">Ruma<span>Nurse</span></a>
+    <span class="footer-tagline">Premium Home Nursing, Tailored to You · Los Angeles, CA</span>
+    <div class="footer-links">
+      <a href="tel:4243549711">424-354-9711</a>
+      <a href="mailto:info@rumanurse.com">Email</a>
+      <a href="https://instagram.com/rumanurse" target="_blank">Instagram</a>
+    </div>
+  </footer>
+
+</body>
+</html>
